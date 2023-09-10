@@ -46,7 +46,7 @@ export const adminLogin = async (req, res, next) => {
     existingAdmin = await Admin.findOne({ email });
     sendMail({ recipientEmail: email, recipientName: "Admin:" })
       .then(() => console.log("Admin Loggedin Succcessfully"))
-      .cathc((err) => console.log(err));
+      .catch((err) => console.log(err));
   } catch (err) {
     return console.log(err);
   }
