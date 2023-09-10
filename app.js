@@ -41,8 +41,10 @@ mongoose
   )
   .catch((e) => console.log(e));
 
+
+
 app.get("/", (req, res) =>
   res.send(
-    `<h1>Movie booking api is live now.<br/> More More You can explore on clicking this URL ${"http://localhost:3000"}</h1>`
+    `<h1>Movie booking api is live now.<br/> More More You can explore on clicking this URL ${`https://moviebookinglive.onrender.com/`}</h1>`
   )
 );

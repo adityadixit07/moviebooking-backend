@@ -1,7 +1,7 @@
 import Admin from "../models/Admin.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
+import sendMail from "../utils/sendMail.js";
 
 // add admin
 export const addAdmin = async (req, res, next) => {
@@ -35,7 +35,6 @@ export const addAdmin = async (req, res, next) => {
   return res.status(201).json({ admin });
 };
 
-
 // admin login
 export const adminLogin = async (req, res, next) => {
   const { email, password } = req.body;
@@ -45,6 +44,9 @@ export const adminLogin = async (req, res, next) => {
   let existingAdmin;
   try {
     existingAdmin = await Admin.findOne({ email });
+    sendMail({ recipientEmail: email, recipientName: "Admin:" })
+      .then(() => console.log("Admin Loggedin Succcessfully"))
+      .cathc((err) => console.log(err));
   } catch (err) {
     return console.log(err);
   }

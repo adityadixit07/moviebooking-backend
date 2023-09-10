@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import Bookings from "../models/Bookings.js";
+import sendMail from "../utils/sendMail.js";
 
 // getall users
 export const getAllUsers = async (req, res, next) => {
@@ -20,6 +21,12 @@ export const getAllUsers = async (req, res, next) => {
 
 export const signup = async (req, res, next) => {
   const { name, email, password } = req.body;
+  const existinguser = await User.findOne({ email });
+  if (existinguser) {
+    res.status(500).json({
+      message: "User already exist!! Try to login or use another account",
+    });
+  }
   if (
     !name &&
     name.trim() === "" &&
@@ -35,6 +42,14 @@ export const signup = async (req, res, next) => {
   try {
     user = new User({ name, email, password: hashedPassword });
     user = await user.save();
+    // send welcome mail
+    console.log(user.name);
+    sendMail({
+      recipientName: user.name,
+      recipientEmail: user.email,
+    })
+      .then(() => console.log("welcome mail send successfully !"))
+      .catch((err) => console.log(err));
   } catch (err) {
     return console.log(err);
   }
@@ -107,7 +122,7 @@ export const login = async (req, res, next) => {
   if (!existingUser) {
     return res
       .status(404)
-      .json({ message: "Unable to find user from this ID" });
+      .json({ message: "Unable to find user with these creadentials" });
   }
 
   const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
