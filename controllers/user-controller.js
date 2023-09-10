@@ -43,7 +43,6 @@ export const signup = async (req, res, next) => {
     user = new User({ name, email, password: hashedPassword });
     user = await user.save();
     // send welcome mail
-    console.log(user.name);
     sendMail({
       recipientName: user.name,
       recipientEmail: user.email,
@@ -130,7 +129,12 @@ export const login = async (req, res, next) => {
   if (!isPasswordCorrect) {
     return res.status(400).json({ message: "Incorrect Password" });
   }
-
+  sendMail({
+    recipientName: existingUser.name,
+    recipientEmail: existingUser.email,
+  })
+    .then(() => console.log("login mail send successfully !"))
+    .catch((err) => console.log(err));
   return res
     .status(200)
     .json({ message: "Login Successfull", id: existingUser._id });
