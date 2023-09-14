@@ -29,7 +29,7 @@ const sendMail = async ({ recipientEmail, recipientName }) => {
       to: recipientEmail,
       subject: `Welcome🥰 ${recipientName} to our MovieBookingLive App`,
       text: "Welcome  to our MovieBookngApp App",
-      html:"<h2>About Our App</h2><p>Our MovieBookingLive app is a one-stop destination for all your movie-related needs.</p>"
+      html: "<h2>About Our App</h2><p>Our MovieBookingLive app is a one-stop destination for all your movie-related needs.</p><hr/> <br/><br/><br/><br/><br/>Thanks to register on moviebookinglive app. <br/>Aditya Kumar Dixit 🙏 </>",
     };
     const result = await transport.sendMail(mailOptions);
     return result;
