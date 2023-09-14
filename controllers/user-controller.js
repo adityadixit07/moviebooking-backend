@@ -42,7 +42,6 @@ export const signup = async (req, res, next) => {
   try {
     user = new User({ name, email, password: hashedPassword });
     user = await user.save();
-    // send welcome mail
     sendMail({
       recipientName: user.name,
       recipientEmail: user.email,
@@ -156,6 +155,8 @@ export const getBookingsOfUser = async (req, res, next) => {
   }
   return res.status(200).json({ bookings });
 };
+
+// get user by id
 export const getUserById = async (req, res, next) => {
   const id = req.params.id;
   let user;
